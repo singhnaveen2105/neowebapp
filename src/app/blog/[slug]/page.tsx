@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Container from "@/components/Container";
 import ArticleContent from "@/components/blog/ArticleContent";
 import ArticleMeta from "@/components/blog/ArticleMeta";
+import BlogBreadcrumb from "@/components/blog/BlogBreadcrumb";
 import CategoryBadge from "@/components/blog/CategoryBadge";
 import TableOfContents from "@/components/blog/TableOfContents";
 import TagList from "@/components/blog/TagList";
@@ -54,6 +55,10 @@ export default async function ArticlePage({
     <Container>
       <div className="py-12">
         <header className="mb-8 max-w-3xl">
+          <BlogBreadcrumb
+            category={article.category}
+            articleTitle={article.title}
+          />
           <CategoryBadge category={article.category} />
           <h1 className="mt-4 text-3xl font-bold text-gray-900 md:text-4xl dark:text-white">
             {article.title}

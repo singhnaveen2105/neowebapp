@@ -1,5 +1,6 @@
 import Container from "@/components/Container";
 import ArticleGrid from "@/components/blog/ArticleGrid";
+import BlogBreadcrumb from "@/components/blog/BlogBreadcrumb";
 import { getCategoryInfo } from "@/lib/categories";
 import {
   getAllCategories,
@@ -40,6 +41,7 @@ export default async function CategoryPage({
     <Container>
       <div className="py-12">
         <header className="mb-10">
+          <BlogBreadcrumb category={category} />
           <div
             className={`mb-4 inline-flex rounded-xl p-4 ${info.bgColor}`}
           >
