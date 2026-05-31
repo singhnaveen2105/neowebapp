@@ -1,6 +1,4 @@
-import React from 'react';
-
-const Projects: React.FC = () => {
+export default function Projects() {
   const skills = [
     {
       name: 'Java',
@@ -102,7 +100,7 @@ const Projects: React.FC = () => {
   ];
 
   return (
-    <section className="px-4 sm:px-6 lg:px-8 py-16 lg:py-24 bg-gradient-to-b from-gray-50 to-white" id="skills">
+    <section className="px-4 sm:px-6 lg:px-8 py-16 lg:py-24 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950" id="skills">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col items-center mb-16">
           <div className="flex items-center gap-4">
@@ -121,19 +119,17 @@ const Projects: React.FC = () => {
           {skills.map((skill, index) => (
             <div
               key={index}
-              className="flex flex-col items-center justify-center p-6 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 animate-bounce"
+              className="flex flex-col items-center justify-center p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 animate-bounce"
               style={{ animationDelay: `${index * 0.1}s`, animationDuration: '2s' }}
             >
               <div className="hover:scale-110 transition-transform duration-300">
                 {skill.icon}
               </div>
-              <p className="mt-4 text-sm font-semibold text-gray-700">{skill.name}</p>
+              <p className="mt-4 text-sm font-semibold text-gray-700 dark:text-gray-200">{skill.name}</p>
             </div>
           ))}
         </div>
       </div>
     </section>
   );
-};
-
-export default Projects;
+}

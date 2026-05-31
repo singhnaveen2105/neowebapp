@@ -1,0 +1,2 @@
+/** Inline script run before paint to avoid theme flash (injected from root layout, not a client component). */
+export const themeInitScript = `(function(){try{var t=localStorage.getItem("theme")||"system";var r=t==="system"?(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"):t;if(r==="dark"){document.documentElement.classList.add("dark")}else{document.documentElement.classList.remove("dark")}}catch(e){}})();`;

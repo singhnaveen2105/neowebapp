@@ -1,93 +1,118 @@
-import React, { useState } from 'react';
-import emailjs from '@emailjs/browser';
+"use client";
 
-const Contact: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+import emailjs from "@emailjs/browser";
+import { useState } from "react";
 
-  const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-  const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-  const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+export default function Contact() {
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">(
+    "idle"
+  );
+
+  const SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+  const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+  const PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !message) {
-      setStatus('error');
+      setStatus("error");
       return;
     }
 
     if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) {
-      console.error('EmailJS environment variables are not set.');
-      setStatus('error');
+      console.error("EmailJS environment variables are not set.");
+      setStatus("error");
       return;
     }
 
-    setStatus('sending');
+    setStatus("sending");
     try {
-      const templateParams = {
-        from_email: email,
-        message,
-      } as Record<string, string>;
-
-      await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY);
-      setStatus('success');
-      setEmail('');
-      setMessage('');
+      await emailjs.send(
+        SERVICE_ID,
+        TEMPLATE_ID,
+        { from_email: email, message },
+        PUBLIC_KEY
+      );
+      setStatus("success");
+      setEmail("");
+      setMessage("");
     } catch (err) {
-      console.error('Failed to send email', err);
-      setStatus('error');
+      console.error("Failed to send email", err);
+      setStatus("error");
     }
   };
 
   return (
-    <section className="px-4 sm:px-6 lg:px-8 py-16 lg:py-24 bg-gray-100 dark:bg-gray-900/50" id="contact">
-      <div className="max-w-xl mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-8 text-gray-900 dark:text-white">Get In Touch</h2>
+    <section
+      className="bg-gray-100 px-4 py-16 sm:px-6 lg:px-8 lg:py-24 dark:bg-gray-900/50"
+      id="contact"
+    >
+      <div className="mx-auto max-w-xl">
+        <h2 className="mb-8 text-center text-3xl font-bold text-gray-900 dark:text-white">
+          Get In Touch
+        </h2>
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" htmlFor="email">Email</label>
-            <input 
+            <label
+              className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300"
+              htmlFor="email"
+            >
+              Email
+            </label>
+            <input
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-lg border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:ring-blue-600 focus:border-blue-600 px-3 py-2" 
-              id="email" 
-              name="email" 
-              placeholder="you@example.com" 
+              className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-600 focus:ring-blue-600 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200"
+              id="email"
+              name="email"
+              placeholder="you@example.com"
               type="email"
               required
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" htmlFor="message">Message</label>
-            <textarea 
+            <label
+              className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300"
+              htmlFor="message"
+            >
+              Message
+            </label>
+            <textarea
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className="w-full rounded-lg border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:ring-blue-600 focus:border-blue-600 px-3 py-2" 
-              id="message" 
-              name="message" 
-              placeholder="Your message..." 
+              className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-600 focus:ring-blue-600 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200"
+              id="message"
+              name="message"
+              placeholder="Your message..."
               rows={4}
               required
-            ></textarea>
+            />
           </div>
           <div className="text-right">
             <button
-              className="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105"
+              className="transform rounded-lg bg-blue-600 px-8 py-3 font-bold text-white transition-all duration-300 hover:scale-105 hover:bg-blue-700 disabled:opacity-60"
               type="submit"
-              disabled={status === 'sending'}
+              disabled={status === "sending"}
             >
-              {status === 'sending' ? 'Sending...' : 'Send Message'}
+              {status === "sending" ? "Sending..." : "Send Message"}
             </button>
           </div>
           <div aria-live="polite">
-            {status === 'success' && <p className="text-green-600 mt-2">Message sent — thanks! I'll get back to you soon.</p>}
-            {status === 'error' && <p className="text-red-600 mt-2">Failed to send message. Please try again later.</p>}
+            {status === "success" && (
+              <p className="mt-2 text-green-600">
+                Message sent — thanks! I&apos;ll get back to you soon.
+              </p>
+            )}
+            {status === "error" && (
+              <p className="mt-2 text-red-600">
+                Failed to send message. Please try again later.
+              </p>
+            )}
           </div>
         </form>
       </div>
     </section>
   );
-};
-
-export default Contact;
+}

@@ -1,73 +1,45 @@
-# React + TypeScript + Vite
+# Naveen Singh — Portfolio & Tech Blog
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Next.js 16 site with a portfolio home page and a markdown-driven tech blog.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Next.js 16 (App Router), React 19, Tailwind CSS 4
+- File-based blog in `/content` (no database)
+- Fuse.js client search, Shiki syntax highlighting, RSS at `/rss.xml`
 
-## React Compiler
+## Development
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Open [http://localhost:3000](http://localhost:3000). Blog: [http://localhost:3000/blog](http://localhost:3000/blog).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Environment
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Copy `.env.example` to `.env.local`:
+
+- `SITE_URL` — canonical URL for RSS links
+- `NEXT_PUBLIC_EMAILJS_*` — contact form (optional)
+
+## Adding articles
+
+Add a `.md` file under `content/` with YAML frontmatter, then rebuild. See existing articles for the required fields.
+
+## Deploy (Vercel)
+
+1. Import the repo in Vercel (framework: Next.js).
+2. Set environment variables from `.env.example`.
+3. Deploy — `npm run build` runs automatically.
+
+The legacy Azure Static Web Apps workflow is disabled; this project targets Vercel.
+
+## Scripts
+
+| Command        | Description              |
+|----------------|--------------------------|
+| `npm run dev`  | Start dev server         |
+| `npm run build`| Production build         |
+| `npm run start`| Run production server    |

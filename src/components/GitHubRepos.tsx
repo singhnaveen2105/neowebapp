@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+"use client";
+
+import { useEffect, useState } from "react";
 
 interface Repo {
   id: number;
@@ -9,43 +11,57 @@ interface Repo {
   language: string;
 }
 
-interface GitHubReposProps {
-  username: string;
-}
-
-const GitHubRepos: React.FC<GitHubReposProps> = ({ username }) => {
+export default function GitHubRepos({ username }: { username: string }) {
   const [repos, setRepos] = useState<Repo[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=6`)
-      .then(res => res.json())
-      .then(data => {
-        setRepos(data);
+    fetch(
+      `https://api.github.com/users/${username}/repos?sort=updated&per_page=6`
+    )
+      .then((res) => res.json())
+      .then((data: Repo[]) => {
+        setRepos(Array.isArray(data) ? data : []);
         setLoading(false);
       })
       .catch(() => setLoading(false));
   }, [username]);
 
-  if (loading) return <div className="text-center py-8">Loading repositories...</div>;
+  if (loading) {
+    return (
+      <div className="py-8 text-center text-gray-600 dark:text-gray-400">
+        Loading repositories...
+      </div>
+    );
+  }
 
   return (
-    <section className="px-4 sm:px-6 lg:px-8 py-16 bg-white" id="repos">
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-12 text-gray-900">My GitHub Projects</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {repos.map(repo => (
+    <section className="bg-white px-4 py-16 sm:px-6 lg:px-8 dark:bg-gray-900" id="repos">
+      <div className="mx-auto max-w-7xl">
+        <h2 className="mb-12 text-center text-3xl font-bold text-gray-900 dark:text-white">
+          My GitHub Projects
+        </h2>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {repos.map((repo) => (
             <a
               key={repo.id}
               href={repo.html_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="block p-6 bg-gray-50 rounded-lg border border-gray-200 hover:shadow-lg transition-all duration-300 hover:border-blue-500"
+              className="block rounded-lg border border-gray-200 bg-gray-50 p-6 transition-all duration-300 hover:border-blue-500 hover:shadow-lg dark:border-gray-700 dark:bg-gray-800"
             >
-              <h3 className="text-xl font-semibold mb-2 text-gray-900">{repo.name}</h3>
-              <p className="text-gray-600 text-sm mb-4 line-clamp-2">{repo.description || 'No description'}</p>
+              <h3 className="mb-2 text-xl font-semibold text-gray-900 dark:text-white">
+                {repo.name}
+              </h3>
+              <p className="mb-4 line-clamp-2 text-sm text-gray-600 dark:text-gray-400">
+                {repo.description || "No description"}
+              </p>
               <div className="flex items-center justify-between text-sm">
-                {repo.language && <span className="text-blue-600">{repo.language}</span>}
+                {repo.language && (
+                  <span className="text-blue-600 dark:text-blue-400">
+                    {repo.language}
+                  </span>
+                )}
                 <span className="text-gray-500">⭐ {repo.stargazers_count}</span>
               </div>
             </a>
@@ -54,6 +70,4 @@ const GitHubRepos: React.FC<GitHubReposProps> = ({ username }) => {
       </div>
     </section>
   );
-};
-
-export default GitHubRepos;
+}

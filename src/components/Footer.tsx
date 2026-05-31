@@ -1,13 +1,9 @@
-import React from 'react';
-
-const Footer: React.FC = () => {
+export default function Footer() {
   return (
-    <footer className="bg-white dark:bg-gray-900 border-t border-gray-200/50 dark:border-gray-700/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-sm text-gray-500 dark:text-gray-400">
-        <p>© 2024 Naveen Singh. All rights reserved.</p>
+    <footer className="border-t border-gray-200/50 bg-white dark:border-gray-700/50 dark:bg-gray-900">
+      <div className="mx-auto max-w-7xl px-4 py-6 text-center text-sm text-gray-500 sm:px-6 lg:px-8 dark:text-gray-400">
+        <p>© {new Date().getFullYear()} Naveen Singh. All rights reserved.</p>
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}
